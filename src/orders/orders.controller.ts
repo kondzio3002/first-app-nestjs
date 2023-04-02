@@ -3,7 +3,8 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
-  NotFoundException
+  NotFoundException,
+  Delete
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 
@@ -22,5 +23,14 @@ export class OrdersController {
       throw new NotFoundException('Order not found');
 
     return this.ordersService.getById(id);
+  }
+
+  @Delete('/:id')
+  deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
+    if (!this.ordersService.getById(id))
+      throw new NotFoundException('Order not found');
+
+    this.ordersService.deleteById(id);
+    return { success: true};
   }
 }
