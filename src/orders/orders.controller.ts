@@ -1,4 +1,10 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  NotFoundException
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 
 @Controller('orders')
@@ -11,7 +17,10 @@ export class OrdersController {
   }
 
   @Get('/:id')
-  getById(@Param('id') id: string) {
+  getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    if (!this.ordersService.getById(id))
+      throw new NotFoundException('Order not found');
+
     return this.ordersService.getById(id);
   }
 }
