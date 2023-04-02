@@ -24,11 +24,17 @@ export class ProductsController {
 
   @Get('/:id')
   getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    if (!this.productsService.getById(id))
+      throw new NotFoundException('Product not found');
+
     return this.productsService.getById(id);
   }
 
   @Delete('/:id')
   deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
+    if (!this.productsService.getById(id))
+      throw new NotFoundException('Product not found');
+
     this.productsService.deleteById(id);
     return { success: true };
   }
