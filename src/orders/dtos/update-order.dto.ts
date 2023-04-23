@@ -7,10 +7,7 @@ export class UpdateOrderDTO {
   productId: string;
 
   @IsNotEmpty()
+  @IsUUID()
   @IsString()
-  client: string;
-
-  @IsNotEmpty()
-  @IsString()
-  address: string;
+  clientId: string;
 };
